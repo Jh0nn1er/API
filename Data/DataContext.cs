@@ -11,7 +11,7 @@ namespace WebAPIProduco.Data
         {
 
         }
-        public DbSet<Forms> UsersForms{get; set; }
+        public DbSet<Form> Forms{get; set; }
         
     }
 }

@@ -3,10 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WebAPIProduco.Model
 {
-    public class Forms
+    public class Form
     {
-        public class UserForm
-        {
+       
         [Key]
         public int Id { get; set; }
         [MaxLength(100)]
@@ -21,7 +20,7 @@ namespace WebAPIProduco.Model
         public string Comment { get; set; }
 
         public DateTime PaymentDate { get; set; }
-        }
+        
         
     }
 }
