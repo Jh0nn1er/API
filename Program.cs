@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebAPIProduco.Data; 
+using Microsoft.AspNetCore.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +20,7 @@ builder.Services.AddDbContext<DataContext>(options =>
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+//builder.Services.AddAuthentication("Authentication").AddScheme<AuthenticationSchemeOptions,AuthenticationHandler>("Authentication",null);
 var app = builder.Build();
 
 // Configurar la canalización de solicitud HTTP
@@ -32,8 +33,11 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+
 app.UseHttpsRedirection();
 app.UseAuthorization();
+
+app.UseAuthentication();
 
 // MapControllers ahora se realiza a través de MapControllerRoute
 app.MapControllerRoute(

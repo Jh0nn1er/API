@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/home/desktop/WebAPIProduco/WebAPIProduco.csproj": {}
+    "/home/desktop/WebAPIProduct/WebAPIProduco.csproj": {}
   },
   "projects": {
-    "/home/desktop/WebAPIProduco/WebAPIProduco.csproj": {
+    "/home/desktop/WebAPIProduct/WebAPIProduco.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/desktop/WebAPIProduco/WebAPIProduco.csproj",
+        "projectUniqueName": "/home/desktop/WebAPIProduct/WebAPIProduco.csproj",
         "projectName": "WebAPIProduco",
-        "projectPath": "/home/desktop/WebAPIProduco/WebAPIProduco.csproj",
-        "packagesPath": "/home/desktop/.nuget/packages/",
-        "outputPath": "/home/desktop/WebAPIProduco/obj/",
+        "projectPath": "/home/desktop/WebAPIProduct/WebAPIProduco.csproj",
+        "packagesPath": "/root/.nuget/packages/",
+        "outputPath": "/home/desktop/WebAPIProduct/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/desktop/.nuget/NuGet/NuGet.Config"
+          "/root/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
@@ -38,6 +38,10 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Authentication": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[6.0.0, )"
