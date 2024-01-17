@@ -73,7 +73,7 @@ namespace WebAPIProduco.Controllers
                 _dbContext.Add(newForm);
                 await _dbContext.SaveChangesAsync();
 
-                return CreatedAtAction(nameof(CreateForms), new { id = newForm.Id }, new { id = newForm.Id });
+                return CreatedAtAction(nameof(CreateForms), new { id = newForm.Id });
         }
         [HttpDelete("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -108,7 +108,7 @@ namespace WebAPIProduco.Controllers
            }
            Form newForm = new()
            {
-               Id = formData.Id,
+              
                FullName = formData.FullName,
                Email = formData.Email,
                DocumentType = formData.DocumentType,
