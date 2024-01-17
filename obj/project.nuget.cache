@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "341hZyqSC5lr4XJnSWdUveB3JL8kDE39AI3VtNCE+YXMa7Y5ivbQDXVxEkvNPwA19t5mVwGg1jp5x1735bkGBA==",
+  "dgSpecHash": "e3dfBvvFwaNBW98b/Jx9InUe1jevt+scdAyidGjM0c96uTIXTgpGOhG2hGb4iINb5chq3W5QvlYoglaBmX/65Q==",
   "success": true,
   "projectFilePath": "/home/desktop/WebAPIProduct/WebAPIProduco.csproj",
   "expectedPackageFiles": [
@@ -63,7 +63,7 @@
     "/root/.nuget/packages/microsoft.win32.primitives/4.3.0/microsoft.win32.primitives.4.3.0.nupkg.sha512",
     "/root/.nuget/packages/microsoft.win32.registry/4.5.0/microsoft.win32.registry.4.5.0.nupkg.sha512",
     "/root/.nuget/packages/netstandard.library/1.6.1/netstandard.library.1.6.1.nupkg.sha512",
-    "/root/.nuget/packages/newtonsoft.json/13.0.3/newtonsoft.json.13.0.3.nupkg.sha512",
+    "/root/.nuget/packages/newtonsoft.json/13.0.1/newtonsoft.json.13.0.1.nupkg.sha512",
     "/root/.nuget/packages/npgsql/6.0.0/npgsql.6.0.0.nupkg.sha512",
     "/root/.nuget/packages/npgsql.entityframeworkcore.postgresql/6.0.0/npgsql.entityframeworkcore.postgresql.6.0.0.nupkg.sha512",
     "/root/.nuget/packages/npgsql.entityframeworkcore.postgresql.design/1.1.0/npgsql.entityframeworkcore.postgresql.design.1.1.0.nupkg.sha512",

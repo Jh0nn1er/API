@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebAPIProduco.Model;
-using WebAPIProduco.Data; 
+using WebAPIProduco.Data;
 
 
 namespace WebAPIProduco.Controllers
@@ -19,27 +19,36 @@ namespace WebAPIProduco.Controllers
             _dbContext = dbContext;
         }
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public ActionResult<IEnumerable<Form>> GetContactForms()
         {
-            return Ok(_dbContext.Forms.ToList());
+            try
+            {
+                var forms = _dbContext.Forms.ToList();
+
+                if (!forms.Any())
+                {
+                    return NotFound("No se encontraron formularios en la base de datos.");
+                }
+                return Ok(_dbContext.Forms.ToList());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error al intentar obtener formularios: {ex.Message}");
+            }
         }
         [HttpGet("{id}")]
         public IActionResult GetForm(int id)
         {
-            if(id==0) 
+            if (id == 0)
             {
-                return BadRequest();
+                return BadRequest("ingrese un dato");
             }
 
             var form = _dbContext.Forms.FirstOrDefault(v => v.Id == id);
 
             if (form == null)
             {
-                return NotFound(); 
+                return NotFound("form is null");
             }
 
             return Ok(form);
@@ -52,43 +61,61 @@ namespace WebAPIProduco.Controllers
         {
             if (_dbContext.Forms.FirstOrDefault(v => v.Email.ToLower() == formData.Email.ToLower()) != null)
             {
-                ModelState.AddModelError("mailExists", "a form with that email already exists");
-                return BadRequest(ModelState);
+                var errorResponse = new
+                {
+                    errors = new
+                    {
+                        mailExists = new[] { "A form with that email already exists" }
+                    }
+                };
+
+                return BadRequest(errorResponse);
             }
+            
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
-            }
-
-             Form newForm = new()
+                var errorResponse = new
                 {
-                    FullName = formData.FullName,
-                    Email = formData.Email,
-                    DocumentType = formData.DocumentType,
-                    Identifier = formData.Identifier,
-                    Comment = formData.Comment,
-                    PaymentDate=DateTime.Now,
-
+                    message = "The form is not valid and does not meet the conditions",
+                    //errors = ModelState
+                      //  .Where(e => e.Value.Errors.Count > 0)
+                        //.ToDictionary(
+                          //  kvp => kvp.Key,
+                           // kvp => kvp.Value.Errors.Select(error => error.ErrorMessage).ToArray()
+                        //)
                 };
-                _dbContext.Add(newForm);
-                await _dbContext.SaveChangesAsync();
 
-                return CreatedAtAction(nameof(CreateForms), new { id = newForm.Id });
+                return BadRequest(errorResponse);
+            }
+            Form newForm = new()
+            {
+                FullName = formData.FullName,
+                Email = formData.Email,
+                DocumentType = formData.DocumentType,
+                Identifier = formData.Identifier,
+                Comment = formData.Comment,
+                PaymentDate = DateTime.Now,
+            };
+            _dbContext.Add(newForm);
+            await _dbContext.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(CreateForms), new { id = newForm.Id });
         }
+
         [HttpDelete("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult DeleteForms(int id) 
-        { 
-        if (id == 0)
+        public IActionResult DeleteForms(int id)
+        {
+            if (id == 0)
             {
                 return BadRequest();
             }
-            var Form =_dbContext.Forms.FirstOrDefault(v=> v.Id == id);
-            if(Form == null)
+            var Form = _dbContext.Forms.FirstOrDefault(v => v.Id == id);
+            if (Form == null)
             {
-                return NotFound(); 
+                return NotFound();
             }
             _dbContext.Forms.Remove(Form);
             _dbContext.SaveChanges();
@@ -100,25 +127,38 @@ namespace WebAPIProduco.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-       public  IActionResult UpdateForms(int id, [FromBody] Form formData) 
-       {
-           if(formData == null || id!=formData.Id)
-           {
-               return BadRequest();    
-           }
-           Form newForm = new()
-           {
-              
-               FullName = formData.FullName,
-               Email = formData.Email,
-               DocumentType = formData.DocumentType,
-               Identifier = formData.Identifier,
-               Comment = formData.Comment,
-               PaymentDate=DateTime.Now,
-           };
-           _dbContext.Update(newForm);
-           return NoContent();
+        public IActionResult UpdateForms(int id, [FromBody] Form formData)
+        {
+            if (formData == null)
+            {
+                return BadRequest(new { msg = "Invalid request data" });
+            }
 
-       }
+            var existingForm = _dbContext.Forms.FirstOrDefault(f => f.Id == id);
+            if (existingForm == null)
+            {
+                return NotFound(new { msg = "Form not found" });
+            }
+            try
+            {
+                Form newForm = new()
+                {
+                    FullName = formData.FullName,
+                    Email = formData.Email,
+                    DocumentType = formData.DocumentType,
+                    Identifier = formData.Identifier,
+                    Comment = formData.Comment,
+                    PaymentDate = DateTime.Now,
+                };
+                _dbContext.Update(newForm);
+                return Ok("Form update successfully");
+                return NoContent();
+            }
+            catch(Exception ex){
+                return BadRequest("Error updating form");
+            }
+            
+
+        }
     }
 }
