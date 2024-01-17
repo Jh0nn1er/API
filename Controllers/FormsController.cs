@@ -27,13 +27,13 @@ namespace WebAPIProduco.Controllers
 
                 if (!forms.Any())
                 {
-                    return NotFound("No se encontraron formularios en la base de datos.");
+                    return NotFound(new { msg = "No forms were found in the database."});
                 }
                 return Ok(_dbContext.Forms.ToList());
             }
             catch (Exception ex)
             {
-                return BadRequest($"Error al intentar obtener formularios: {ex.Message}");
+                return BadRequest(new { msg = $"Error trying to get forms: {ex.Message}"});
             }
         }
         [HttpGet("{id}")]
@@ -41,14 +41,14 @@ namespace WebAPIProduco.Controllers
         {
             if (id == 0)
             {
-                return BadRequest("ingrese un dato");
+                return BadRequest(new { msg = "enter a data"});
             }
 
             var form = _dbContext.Forms.FirstOrDefault(v => v.Id == id);
 
             if (form == null)
             {
-                return NotFound("form is null");
+                return NotFound(new { msg = "form is null"});
             }
 
             return Ok(form);
@@ -151,11 +151,11 @@ namespace WebAPIProduco.Controllers
                     PaymentDate = DateTime.Now,
                 };
                 _dbContext.Update(newForm);
-                return Ok("Form update successfully");
+                return Ok(new { msg = "Form update successfully"});
                 return NoContent();
             }
             catch(Exception ex){
-                return BadRequest("Error updating form");
+                return BadRequest(new { msg = "Error updating form"});
             }
             
 
