@@ -9,6 +9,12 @@ using Microsoft.AspNetCore.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Host.ConfigureAppConfiguration((hostingContext, config) =>
+{
+    var envName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+    config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+        .AddJsonFile($"appsettings.{envName}.json", optional: true, reloadOnChange: true);
+});
 // Configurar la cadena de conexión
 var connectionString = builder.Configuration.GetConnectionString("WebAppiDatabase");
 

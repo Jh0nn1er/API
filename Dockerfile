@@ -1,24 +1,29 @@
-# Utiliza la imagen oficial de ASP.NET Core como base
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
+EXPOSE 5153
 
-EXPOSE 80
-EXPOSE 5024
-COPY ./*.csproj ./
+ENV ASPNETCORE_URLS=http://+:5153/swagger/index.html
+ENV ASPNETCORE_ENVIRONMENT=Development
 
-# Copia los archivos del proyecto al contenedor
+# Creates a non-root user with an explicit UID and adds permission to access the /app folder
+# For more info, please refer to https://aka.ms/vscode-docker-dotnet-configure-containers
+RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
+USER appuser
+
+FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+ARG configuration=Release
+WORKDIR /src
+COPY ["WebAPIProduco.csproj", "./"]
+RUN dotnet restore "WebAPIProduco.csproj"
 COPY . .
+WORKDIR "/src/."
+RUN dotnet build "WebAPIProduco.csproj" -c $configuration -o /app/build
 
-# Restaura las dependencias y compila la aplicación
-RUN ls -la
-RUN dotnet restore
-RUN dotnet publish -c Release -o out
+FROM build AS publish
+ARG configuration=Release
+RUN dotnet publish "WebAPIProduco.csproj" -c $configuration -o /app/publish /p:UseAppHost=false
 
-# Utiliza una imagen más ligera para la aplicación final
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS runtime
+FROM base AS final
 WORKDIR /app
-COPY --from=build /app/out .
-
-# Define el comando de inicio de la aplicación
-CMD ["dotnet", "WebAPIPdroduct.csproj"]
-
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "WebAPIProduco.dll"]

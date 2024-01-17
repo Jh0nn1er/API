@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "2YZpIl3nmKb4TK/ZfpDPxfLH+Dr82U+/mnHpXinj/BtJRwvsByljI66KHNU1Rjte4KglHlATrD5dLxoGqNGyXw==",
+  "dgSpecHash": "341hZyqSC5lr4XJnSWdUveB3JL8kDE39AI3VtNCE+YXMa7Y5ivbQDXVxEkvNPwA19t5mVwGg1jp5x1735bkGBA==",
   "success": true,
   "projectFilePath": "/home/desktop/WebAPIProduct/WebAPIProduco.csproj",
   "expectedPackageFiles": [
+    "/root/.nuget/packages/dotenv.net/3.1.3/dotenv.net.3.1.3.nupkg.sha512",
     "/root/.nuget/packages/humanizer.core/2.8.26/humanizer.core.2.8.26.nupkg.sha512",
     "/root/.nuget/packages/microsoft.aspnetcore.authentication/2.2.0/microsoft.aspnetcore.authentication.2.2.0.nupkg.sha512",
     "/root/.nuget/packages/microsoft.aspnetcore.authentication.abstractions/2.2.0/microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",
